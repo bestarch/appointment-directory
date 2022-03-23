@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointment-directory-deployment
+  namespace: app-poc
+  labels:
+    app: appointment-directory-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: appointment-directory-app
+  template:
+    metadata:
+      labels:
+        app: appointment-directory-app
+    spec:
+      containers:
+        - name: appointment-directory
+          image: abhishekcoder/appointment-directory
+          ports:
+          - name: http
+            containerPort: 8080
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: SPRING_REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: SPRING_REDIS_HOST
+            - name: SPRING_REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: SPRING_REDIS_PORT
+            - name: SPRING_REDIS_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: SPRING_REDIS_PASSWORD
+
+
