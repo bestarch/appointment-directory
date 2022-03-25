@@ -14,6 +14,7 @@
 
     <!-- Bootstrap core CSS -->
 <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="/assets/dist/css/dashboard.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -35,16 +36,20 @@
     <link href="form-validation.css" rel="stylesheet">
   </head>
   <body class="bg-light">
+  
+  <header th:insert="header.html"> </header>
     
-<div class="container">
-  <main>
+<div class="container-fluid">
+
+<div class="row" th:replace="nav.html"></div>
+
+  <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
     <div class="py-5 text-center">
-      <img src="/assets/brand/redis.png" alt="" width="80" height="60">
-      <h2>New appointment</h2>
-    </div>
+		<h2>New appointment</h2>
+		<hr />
+	</div>
     
     <div class="row g-5">
-        <h4 class="mb-3">New appointment detail</h4>
      
   <form action="#" th:action="@{/appointment}" th:object="${appointment}" method="post">
      
@@ -115,7 +120,7 @@
 		    
 		    <div class="row mb-3">
 		      <div class="col-md-4 themed-grid-col">
-				 <a class="w-100 btn btn-primary btn-sm" href="/employees">Cancel</a>
+				 <a class="w-100 btn btn-primary btn-sm" href="/appointments">Cancel</a>
 			  </div>
 		      <div class="col-md-4 themed-grid-col">
 				 <input type="submit" class="w-100 btn btn-primary btn-sm" value="Create appointment"/>
