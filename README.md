@@ -10,3 +10,18 @@ Application can be deployed to Kubernetes env as well. It contains:
 * services YAML files.
  
 This uses service type loadbalancer with annotation type NLB deployed in AWS EKS.
+
+**Snapshots of the application**
+Login page:
+
+<img width="454" alt="image" src="https://user-images.githubusercontent.com/26322220/160120287-ab92bee7-e1e4-4791-a153-a7c9f02480dc.png">
+
+Appointment list page:
+
+<img width="1277" alt="image" src="https://user-images.githubusercontent.com/26322220/160120413-08bffc77-8ea6-4ba1-9492-579507f34ca2.png">
+
+New appointment:
+
+<img width="1002" alt="image" src="https://user-images.githubusercontent.com/26322220/160120467-ba34b41f-a848-4c3f-ab4a-ca2100bbf681.png">
+
+
