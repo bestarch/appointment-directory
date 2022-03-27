@@ -44,4 +44,4 @@ Execute the following command to run the application. This will create 2 contain
 > **docker compose up**
 
 Execute the following command to destroy the above 2 containers in the private network:
-> **docker compose up**
+> **docker compose down**
