@@ -27,13 +27,6 @@ public class AppointmentDirectoryService {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
-	
-
-	public Appointment addUser(Appointment appointment) {
-		Appointment appointment2 = appointmentCrudRepository.save(appointment);
-		return appointment2;
-	}
-
 	public Optional<Appointment> getAppointment(String appointmentId) {
 		return appointmentCrudRepository.findById(appointmentId);
 	}

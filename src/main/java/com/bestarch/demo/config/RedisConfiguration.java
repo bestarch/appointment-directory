@@ -70,7 +70,7 @@ class RedisConfiguration {
 			template.opsForStream().createGroup(newAppointmentStream, newAppointmentStream);
 		} catch (RedisSystemException e) {
 			System.out.println("Ognoring the exception. Redis Stream group may be present already. Skipping it");
-
+			e.printStackTrace();
 		}
 		return template;
 	}

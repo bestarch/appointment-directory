@@ -17,6 +17,7 @@ services:
     image: "redis"
     networks: 
       - web-network
+    restart: always
     ports:
       - "6377:6379"
 networks:

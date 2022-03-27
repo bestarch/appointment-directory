@@ -2,10 +2,10 @@ package com.bestarch.demo.controller;
 
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,22 +19,13 @@ import com.bestarch.demo.service.AppointmentDirectoryService;
 
 @Controller
 public class AppointmentDirectoryController {
+	
+	@Value("${stream.newappointment}")
+    private String newAppointmentStream;
 
 	@Autowired
 	private AppointmentDirectoryService appointmentDirectoryService;
-
-	@PostConstruct
-	public void init() {
-		Appointment appointment = Appointment.builder()
-				.email("abhishek@gmail.com")
-				.name("Abhishek")
-				.appointmentId("AB1324")
-				//.date("Sales")
-				.status("Approved")
-				.build();
-		appointmentDirectoryService.addUser(appointment);
-	}
-
+	
 	@GetMapping(value = {"/", "/appointments"})
 	public ModelAndView getAppointments() {
 		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,7 +49,6 @@ public class AppointmentDirectoryController {
 		appointmentDirectoryService.addNewAppointment(appointment);
 		return "redirect:/appointments";
 	}
-	
 	
 	@GetMapping(value = {"/logout"})
 	public String logout(HttpSession session) {
