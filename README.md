@@ -11,7 +11,9 @@ Application can be deployed to Kubernetes env as well. It contains:
  
 This uses service type loadbalancer with annotation type NLB deployed in AWS EKS.
 
+
 **Snapshots of the application**
+
 Login page:
 
 <img width="454" alt="image" src="https://user-images.githubusercontent.com/26322220/160120287-ab92bee7-e1e4-4791-a153-a7c9f02480dc.png">
@@ -24,4 +26,10 @@ New appointment:
 
 <img width="1002" alt="image" src="https://user-images.githubusercontent.com/26322220/160120467-ba34b41f-a848-4c3f-ab4a-ca2100bbf681.png">
 
+**Run with docker**
 
+Execute the following command to run the application:
+> **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=<REDIS_URL> -e SPRING_REDIS_PORT=<REDIS_PORT> -e SPRING_REDIS_PASSWORD=<REDIS_PSWD> abhishekcoder/appointment-directory:latest**
+
+For instance:
+> **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=localhost -e SPRING_REDIS_PORT=6379 -e SPRING_REDIS_PASSWORD=e9gydixtEWqN4tYKgRnhUXysXADYJzZ9 abhishekcoder/appointment-directory:latest**
