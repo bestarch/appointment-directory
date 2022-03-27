@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  web:
+    image: "abhishekcoder/appointment-directory"
+    networks: 
+      - web-network
+    environment:
+     - SPRING_REDIS_HOST=redis
+     - SPRING_REDIS_PORT=6379
+     - SPRING_REDIS_PASSWORD="e9gydixtEWqN4tYKgRnhUXysXADYJzZ9"
+    depends_on:
+      - redis
+    build: .
+    ports:
+      - "8080:8080"
+  redis:
+    image: "redis"
+    networks: 
+      - web-network
+    ports:
+      - "6377:6379"
+networks:
+  web-network:
+    driver: bridge
