@@ -36,6 +36,7 @@ Execute the following command to run the application:
 For instance:
 > **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=localhost -e SPRING_REDIS_PORT=6379 -e SPRING_REDIS_PASSWORD=e9gydixtEWqN4tYKgRnhUXysXADYJzZ9 abhishekcoder/appointment-directory:latest**
 
+<hr/>
 
 **Run with docker compose**
 
