@@ -78,10 +78,20 @@
 		    
 		    <div class="row mb-3">
 		      <div class="col-md-4 themed-grid-col">
-				<label for="email" class="form-label">Email</label>
+				<label for="username" class="form-label">Username/email</label>
 			  </div>
 		      <div class="col-md-4 themed-grid-col">
-				<input type="email" class="form-control" id="email" th:field="*{email}" required>
+				<input type="text" class="form-control" id="username" th:field="*{username}" readonly>
+			  </div>
+		      <div class="col-md-4 themed-grid-col"></div>
+		    </div>
+		    
+		    <div class="row mb-3">
+		      <div class="col-md-4 themed-grid-col">
+				<label for="description" class="form-label">Description</label>
+			  </div>
+		      <div class="col-md-4 themed-grid-col">
+				<input type="text" class="form-control" id="description" th:field="*{description}" required>
 			  </div>
 		      <div class="col-md-4 themed-grid-col"></div>
 		    </div>
@@ -98,10 +108,10 @@
 		    
 		     <div class="row mb-3">
 		      <div class="col-md-4 themed-grid-col">
-				<label for="date" class="form-label">Date</label>
+				<label for="appointmentDate" class="form-label">Date</label>
 			  </div>
 		      <div class="col-md-4 themed-grid-col">
-				<input type="datetime-local" class="form-control" id="date" th:field="*{date}" required>
+				<input type="datetime-local" class="form-control" id="appointmentDate" th:field="*{appointmentDate}" required>
 			  </div>
 		      <div class="col-md-4 themed-grid-col"></div>
 		    </div>

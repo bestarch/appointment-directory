@@ -16,10 +16,13 @@ import lombok.NoArgsConstructor;
 public class Appointment {
 
 	@Id
-	private String email;
+	private String username;
 	private String name;
 	private String appointmentId;
 	private String contactNo;
-	private String date;
+	private String appointmentDate;
 	private String status;
+	private String description;
+	private String createdTime;
+	private String updatedTime;
 }

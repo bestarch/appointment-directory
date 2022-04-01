@@ -25,6 +25,8 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer.StreamMessageListenerContainerOptions;
 import org.springframework.data.redis.stream.Subscription;
 
+import com.bestarch.demo.domain.AppointmentRequestStream;
+
 @Configuration
 class RedisConfiguration {
 	
@@ -41,7 +43,7 @@ class RedisConfiguration {
 	private String pswd;
 	
 	@Autowired
-    private StreamListener<String, ObjectRecord<String, String>> streamListener;
+    private StreamListener<String, ObjectRecord<String, AppointmentRequestStream>> streamListener;
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
@@ -78,14 +80,14 @@ class RedisConfiguration {
 	@Bean
     public Subscription subscription(RedisConnectionFactory redisConnectionFactory) throws UnknownHostException {
 		
-    	StreamMessageListenerContainerOptions<String, ObjectRecord<String, String>> options = StreamMessageListenerContainer
+    	StreamMessageListenerContainerOptions<String, ObjectRecord<String, AppointmentRequestStream>> options = StreamMessageListenerContainer
                             .StreamMessageListenerContainerOptions
                             .builder()
                             .pollTimeout(Duration.ofSeconds(20))
-                            .targetType(String.class)
+                            .targetType(AppointmentRequestStream.class)
                             .build();
     	
-    	StreamMessageListenerContainer<String,ObjectRecord<String,String>> listenerContainer = StreamMessageListenerContainer.create(redisConnectionFactory, options);
+    	StreamMessageListenerContainer<String, ObjectRecord<String, AppointmentRequestStream>> listenerContainer = StreamMessageListenerContainer.create(redisConnectionFactory, options);
     	
     	Subscription subscription = listenerContainer.receiveAutoAck(
                 Consumer.from(newAppointmentStream, InetAddress.getLocalHost().getHostName()),

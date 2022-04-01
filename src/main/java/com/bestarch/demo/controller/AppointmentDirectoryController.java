@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.service.AppointmentDirectoryService;
+import com.bestarch.demo.util.AppointmentUtil;
 
 @Controller
 public class AppointmentDirectoryController {
@@ -26,20 +27,24 @@ public class AppointmentDirectoryController {
 	@Autowired
 	private AppointmentDirectoryService appointmentDirectoryService;
 	
+	@Autowired
+	private AppointmentUtil appointmentUtil;
+	
 	@GetMapping(value = {"/", "/appointments"})
 	public ModelAndView getAppointments() {
-		//User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//Optional<Employee> employee = employeeService.getEmployee(user.getUsername());
 		List<Appointment> appointments = appointmentDirectoryService.getAppointments();
 		ModelAndView mv = new ModelAndView("appointments");
         mv.addObject("appointments", appointments);
 		return mv;
 	}
-	
+
 	@GetMapping(value = "/new-appointment")
 	public ModelAndView getNewEmployeeForm() {
 		ModelAndView mv = new ModelAndView("new-appointment");
-        mv.addObject(new Appointment());
+		String username = appointmentUtil.getUsername().getUsername();
+		Appointment appt = new Appointment();
+		appt.setUsername(username);
+        mv.addObject(appt);
 		return mv;
 	}
 	

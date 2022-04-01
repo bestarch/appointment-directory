@@ -55,19 +55,21 @@
 						<tr>
 							<th scope="col">Appointment Id</th>
 							<th scope="col">Name</th>
-							<th scope="col">Email</th>
-							<th scope="col">Date & time</th>
+							<th scope="col">User/Email</th>
+							<th scope="col">Appointment date</th>
 							<th scope="col">Contact Number</th>
 							<th scope="col">Status</th>
+							<th scope="col">Created date</th>
+							<th scope="col">Updated date</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="appointment: ${appointments}">
 							<td th:text="${appointment.appointmentId}"></td>
 							<td th:text="${appointment.name}"></td>
-							<td th:text="${appointment.email}"></td>
+							<td th:text="${appointment.username}"></td>
 							<td>
-								<span class="badge rounded-pill bg-success" th:text="${appointment.date}" />
+								<span class="badge rounded-pill bg-success" th:text="${appointment.appointmentDate}" />
 							</td>
 
 							<td th:text="${appointment.contactNo}"></td>
@@ -78,6 +80,8 @@
 								<span class="badge rounded-pill bg-primary"
 									th:unless="${appointment.status} == 'Approved'" th:text="${appointment.status}" />
 							</td>
+							<td th:text="${appointment.createdTime}"></td>
+							<td th:text="${appointment.updatedTime}"></td>
 
 						</tr>
 					</tbody>
