@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.RedisSystemException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -26,6 +26,13 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer.Stre
 import org.springframework.data.redis.stream.Subscription;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
+//import com.redislabs.modules.rejson.JReJSON;
+
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisClientConfig;
+import redis.clients.jedis.JedisPooled;
+import redis.clients.jedis.UnifiedJedis;
 
 @Configuration
 class RedisConfiguration {
@@ -52,6 +59,14 @@ class RedisConfiguration {
 		redisStandaloneConfiguration.setPassword(rp);
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
+	
+	@Bean
+	public UnifiedJedis unifiedJedis() {
+		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
+		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
+		UnifiedJedis unifiedJedis = new JedisPooled(hostAndPort, jedisClientConfig);
+		return unifiedJedis;
+	}
 
 	@Bean
 	public RedisTemplate<String, String> redisTemplate() {
@@ -70,7 +85,7 @@ class RedisConfiguration {
 		template.afterPropertiesSet();
 		try {
 			template.opsForStream().createGroup(newAppointmentStream, newAppointmentStream);
-		} catch (RedisSystemException e) {
+		} catch (DataAccessException e) {
 			System.out.println("Ognoring the exception. Redis Stream group may be present already. Skipping it");
 			e.printStackTrace();
 		}
