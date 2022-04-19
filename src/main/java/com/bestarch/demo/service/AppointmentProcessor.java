@@ -18,6 +18,8 @@ import org.springframework.stereotype.Component;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.modules.rejson.JReJSON;
+import com.redislabs.modules.rejson.Path;
 
 @Component
 public class AppointmentProcessor implements StreamListener<String, ObjectRecord<String, AppointmentRequestStream>> {
@@ -28,6 +30,9 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
+	@Autowired
+	private JReJSON jreJSON; 
+	
 	private SecureRandom random;
 	
 	@PostConstruct
@@ -36,11 +41,31 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
         random.setSeed("ABC".getBytes("UTF-8"));
 	}
 
+//	@Override
+//	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
+//		AppointmentRequestStream appointmentRequest = record.getValue();
+//		String updatedTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+//		String key = "appointment:" + appointmentRequest.getUsername();
+//		
+//		try {
+//			TimeUnit.SECONDS.sleep(5);
+//		} catch (InterruptedException e) {
+//		}
+//		String status = AppointmentUtil.APPOINTMENT_STATUS_REJECTED;
+//		int generatedSuffix = random.nextInt(10000);
+//		if (generatedSuffix % 5 != 0) {
+//			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
+//			redisTemplate.opsForHash().put(key, "appointmentId", "ID"+generatedSuffix);
+//		} 
+//		redisTemplate.opsForHash().put(key, "status", status);
+//		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
+//	}
+	
 	@Override
 	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
 		AppointmentRequestStream appointmentRequest = record.getValue();
 		String updatedTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-		String key = "appointment:" + appointmentRequest.getUsername();
+		String key = appointmentRequest.getKey();
 		
 		try {
 			TimeUnit.SECONDS.sleep(5);
@@ -50,10 +75,10 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 		int generatedSuffix = random.nextInt(10000);
 		if (generatedSuffix % 5 != 0) {
 			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
-			redisTemplate.opsForHash().put(key, "appointmentId", "ID"+generatedSuffix);
+			jreJSON.set(key, "ID"+generatedSuffix, new Path("appointmentId"));
 		} 
-		redisTemplate.opsForHash().put(key, "status", status);
-		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
+		jreJSON.set(key, status, new Path("status"));
+		jreJSON.set(key, updatedTime, new Path("updatedTime"));
 	}
 
 }

@@ -5,11 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.stream.ObjectRecord;
 import org.springframework.data.redis.connection.stream.StreamRecords;
 import org.springframework.stereotype.Service;
@@ -51,9 +51,14 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 		appointment.setUpdatedTime(null);
 		appointmentCrudRepository.save(appointment);
 		
+		String apptDateStr = appointment.getAppointmentDate();
+		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
+		String prefix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH", Locale.ENGLISH));
+		String key = prefix+":appointment:"+username;
+		
 		AppointmentRequestStream apptRequest = AppointmentRequestStream.builder()
-				.createdTime(createdTime)
-				.username(username).build();
+				.key(key)
+				.createdTime(createdTime).build();
 		ObjectRecord<String, AppointmentRequestStream> newAppointment = StreamRecords.newRecord()
                 .ofObject(apptRequest)
                 .withStreamKey(newAppointmentStream);

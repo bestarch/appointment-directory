@@ -27,12 +27,12 @@ import org.springframework.data.redis.stream.Subscription;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
 //import com.redislabs.modules.rejson.JReJSON;
+import com.redislabs.modules.rejson.JReJSON;
 
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisClientConfig;
-import redis.clients.jedis.JedisPooled;
-import redis.clients.jedis.UnifiedJedis;
 
 @Configuration
 class RedisConfiguration {
@@ -60,12 +60,21 @@ class RedisConfiguration {
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 	
+//	@Bean
+//	public UnifiedJedis unifiedJedis() {
+//		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
+//		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
+//		UnifiedJedis unifiedJedis = new JedisPooled(hostAndPort, jedisClientConfig);
+//		return unifiedJedis;
+//	}
+	
 	@Bean
-	public UnifiedJedis unifiedJedis() {
+	public JReJSON jreJSON() {
 		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
 		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
-		UnifiedJedis unifiedJedis = new JedisPooled(hostAndPort, jedisClientConfig);
-		return unifiedJedis;
+		Jedis jedis = new Jedis(hostAndPort, jedisClientConfig);
+		JReJSON jreJSON = new JReJSON(jedis);
+		return jreJSON;
 	}
 
 	@Bean

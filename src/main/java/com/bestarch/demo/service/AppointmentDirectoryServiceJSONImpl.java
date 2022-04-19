@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -17,18 +18,15 @@ import org.springframework.stereotype.Service;
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.util.AppointmentUtil;
-
-import redis.clients.jedis.UnifiedJedis;
-import redis.clients.jedis.search.Document;
-import redis.clients.jedis.search.Query;
-import redis.clients.jedis.search.SearchResult;
+import com.redislabs.modules.rejson.JReJSON;
 
 @Service
 @Primary
 public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectoryService {
 	
 	@Autowired
-	private UnifiedJedis unifiedJedis;
+	//private UnifiedJedis unifiedJedis;
+	private JReJSON jreJSON; 
 	
 	public Optional<Appointment> getAppointment(String appointmentId) {
 		return null;
@@ -36,12 +34,12 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 
 	public List<Appointment> getAppointments() {
 		List<Appointment> appointments = new ArrayList<>();
-		Query q = new Query("@\\$\\" + ".status:{Approved|Submitted|Rejected}");
-		SearchResult mayaSearch = unifiedJedis.ftSearch("appt-idx", q);
-		List<Document> docs = mayaSearch.getDocuments();
-		for (Document doc : docs) {
-		   System.out.println(doc);
-		}
+//		Query q = new Query("@\\$\\" + ".status:{Approved|Submitted|Rejected}");
+//		SearchResult mayaSearch = unifiedJedis.ftSearch("appt-idx", q);
+//		List<Document> docs = mayaSearch.getDocuments();
+//		for (Document doc : docs) {
+//		   System.out.println(doc);
+//		}
 		return appointments;
 	}
 	
@@ -58,18 +56,22 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
 		appointment.setCreatedTime(createdTime);
 		appointment.setUsername(username);
-		appointment.setUpdatedTime(null);
 		
-		unifiedJedis.jsonSet("appointment:"+username, appointment);
+		String apptDateStr = appointment.getAppointmentDate();
+		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
+		String suffix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH", Locale.ENGLISH));
+		String key = "appointment:"+username+":"+suffix;
+		
+		jreJSON.set(key, appointment);
 		
 		AppointmentRequestStream apptRequest = AppointmentRequestStream.builder()
-				.createdTime(createdTime)
-				.username(username).build();
+				.key(key)
+				.createdTime(createdTime).build();
 		ObjectRecord<String, AppointmentRequestStream> newAppointment = StreamRecords.newRecord()
                 .ofObject(apptRequest)
                 .withStreamKey(newAppointmentStream);
 		
 		redisTemplate.opsForStream().add(newAppointment);
 	}
-
+	
 }

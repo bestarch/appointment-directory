@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AppointmentRequestStream {
 
-	private String username;
+	private String key;
 	private String createdTime;
 	
 }
