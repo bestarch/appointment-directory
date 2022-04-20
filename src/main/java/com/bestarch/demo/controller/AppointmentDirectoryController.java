@@ -12,11 +12,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.service.AppointmentDirectoryService;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.lettusearch.SearchResults;
 
 @Controller
 public class AppointmentDirectoryController {
@@ -31,11 +34,17 @@ public class AppointmentDirectoryController {
 	private AppointmentUtil appointmentUtil;
 	
 	@GetMapping(value = {"/", "/appointments"})
-	public ModelAndView getAppointments() {
-		List<Appointment> appointments = appointmentDirectoryService.getAppointments();
+	public ModelAndView getAppointments(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int page) {
+		List<Appointment> appointments = appointmentDirectoryService.getAppointments(offset, page);
 		ModelAndView mv = new ModelAndView("appointments");
         mv.addObject("appointments", appointments);
 		return mv;
+	}
+	
+	@GetMapping(value = {"/appointments_v2"})
+	public @ResponseBody SearchResults<String, String> getAppointmentse(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int page) {
+		SearchResults<String, String> appointments = appointmentDirectoryService.getAppointments_v2(offset, page);
+		return appointments;
 	}
 
 	@GetMapping(value = "/new-appointment")

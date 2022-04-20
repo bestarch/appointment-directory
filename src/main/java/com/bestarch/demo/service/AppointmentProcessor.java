@@ -78,7 +78,7 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 			jreJSON.set(key, "ID"+generatedSuffix, new Path("appointmentId"));
 		} 
 		jreJSON.set(key, status, new Path("status"));
-		jreJSON.set(key, updatedTime, new Path("updatedTime"));
+		jreJSON.set(key, System.currentTimeMillis()/1000, new Path("updatedTime"));
 	}
 
 }

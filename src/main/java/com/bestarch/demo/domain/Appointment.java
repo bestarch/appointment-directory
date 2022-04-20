@@ -21,8 +21,9 @@ public class Appointment {
 	private String appointmentId;
 	private String contactNo;
 	private String appointmentDate;
+	private String appointmentDateTime;
 	private String status;
 	private String description;
-	private String createdTime;
-	private String updatedTime;
+	private Long createdTime;
+	private Long updatedTime;
 }

@@ -18,6 +18,7 @@ import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.repository.AppointmentCrudRepository;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.lettusearch.SearchResults;
 
 @Service
 public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectoryService {
@@ -29,7 +30,7 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 		return appointmentCrudRepository.findById(appointmentId);
 	}
 
-	public List<Appointment> getAppointments() {
+	public List<Appointment> getAppointments(int offset, int page) {
 		List<Appointment> appointments = new ArrayList<>();
 		appointmentCrudRepository.findAll().forEach(appointments::add);
 		return appointments;
@@ -46,7 +47,7 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 		String username = appointmentUtil.getUsername().getUsername();
 		
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
-		appointment.setCreatedTime(createdTime);
+		appointment.setCreatedTime(System.currentTimeMillis()/1000);
 		appointment.setUsername(username);
 		appointment.setUpdatedTime(null);
 		appointmentCrudRepository.save(appointment);
@@ -64,6 +65,11 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
                 .withStreamKey(newAppointmentStream);
 		
 		redisTemplate.opsForStream().add(newAppointment);
+	}
+
+	@Override
+	public SearchResults<String, String> getAppointments_v2(int offset, int page) {
+		throw new RuntimeException("Not implemented");
 	}
 
 }

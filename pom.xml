@@ -92,6 +92,18 @@
 	        </exclusion>
 	      </exclusions> -->
 	    </dependency>
+	    
+	    <dependency>
+		    <groupId>com.redislabs</groupId>
+		    <artifactId>spring-redisearch</artifactId>
+		    <version>3.1.2</version>
+		</dependency> 
+		
+		<!-- <dependency>
+	      <groupId>com.redislabs</groupId>
+	      <artifactId>lettusearch</artifactId>
+	      <version>3.1.2</version>
+	    </dependency> -->
 		
 	</dependencies>
 
