@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class AppointmentRequestStream {
 
 	private String key;
-	private String createdTime;
+	private long createdTime;
 	
 }

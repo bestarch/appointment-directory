@@ -1,11 +1,10 @@
 package com.bestarch.demo.service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -43,19 +42,19 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 	}
 
 	public void addNewAppointment(Appointment appointment) {
-		String createdTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		String username = appointmentUtil.getUsername().getUsername();
-		
+		long createdTime = System.currentTimeMillis()/1000;
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
-		appointment.setCreatedTime(System.currentTimeMillis()/1000);
+		appointment.setCreatedTime(createdTime);
 		appointment.setUsername(username);
-		appointment.setUpdatedTime(null);
 		appointmentCrudRepository.save(appointment);
 		
-		String apptDateStr = appointment.getAppointmentDate();
+		String apptDateStr = appointment.getAppointmentDateStr();
 		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
-		String prefix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HH", Locale.ENGLISH));
-		String key = prefix+":appointment:"+username;
+		
+		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())/1000;
+		
+		String key = "appointment:"+username+":"+suffix;
 		
 		AppointmentRequestStream apptRequest = AppointmentRequestStream.builder()
 				.key(key)

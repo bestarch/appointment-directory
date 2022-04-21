@@ -20,8 +20,8 @@ public class Appointment {
 	private String name;
 	private String appointmentId;
 	private String contactNo;
-	private String appointmentDate;
-	private String appointmentDateTime;
+	private Long appointmentDateTime;
+	private String appointmentDateStr;
 	private String status;
 	private String description;
 	private Long createdTime;

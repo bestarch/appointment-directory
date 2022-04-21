@@ -1,12 +1,11 @@
 package com.bestarch.demo.service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -104,17 +103,17 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 	}
 
 	public void addNewAppointment(Appointment appointment) {
-		String createdTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		String username = appointmentUtil.getUsername().getUsername();
-		
+		long createdTime = System.currentTimeMillis()/1000;
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
-		appointment.setCreatedTime(System.currentTimeMillis()/1000);
+		appointment.setCreatedTime(createdTime);
 		appointment.setUsername(username);
 		
-		String apptDateStr = appointment.getAppointmentDateTime();
+		String apptDateStr = appointment.getAppointmentDateStr();
 		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
-		appointment.setAppointmentDate(apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)));
-		String suffix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh", Locale.ENGLISH));
+		
+		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())/1000;
+		appointment.setAppointmentDateTime(suffix);
 		String key = "appointment:"+username+":"+suffix;
 		
 		jreJSON.set(key, appointment);
@@ -130,7 +129,9 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(System.currentTimeMillis()/1000);
+		//String createdTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+		//appointment.setAppointmentDate(apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)));
+		//String suffix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh", Locale.ENGLISH));
 	}
 
 }

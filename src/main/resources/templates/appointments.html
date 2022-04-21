@@ -69,20 +69,18 @@
 							<td th:text="${appointment.name}"></td>
 							<td th:text="${appointment.username}"></td>
 							<td>
-								<span class="badge rounded-pill bg-success" th:text="${appointment.appointmentDateTime}" />
+								<span class="badge rounded-pill bg-success" th:text="${#dates.format(appointment.appointmentDateTime*1000, 'dd-MM-yyyy HH:mm')}" />
 							</td>
 
 							<td th:text="${appointment.contactNo}"></td>
 
 							<td>
-								<span class="badge rounded-pill bg-success" th:if="${appointment.status} == 'Approved'"
-									th:text="Approved" />
-								<span class="badge rounded-pill bg-primary"
-									th:unless="${appointment.status} == 'Approved'" th:text="${appointment.status}" />
+								<span class="badge rounded-pill bg-success" th:if="${appointment.status} == 'Approved'" th:text="Approved" />
+								<span class="badge rounded-pill bg-primary" th:unless="${appointment.status} == 'Approved'" th:text="${appointment.status}" />
 							</td>
-							<td th:text="${appointment.createdTime}"></td>
-							<td th:text="${appointment.updatedTime}"></td>
-
+							<td th:text="${#dates.format(appointment.createdTime*1000, 'dd-MM-yyyy HH:mm')}"></td>
+							<td th:if="${appointment.updatedTime == null}"></td>
+							<td th:unless="${appointment.updatedTime == null}" th:text="${#dates.format(appointment.updatedTime*1000, 'dd-MM-yyyy HH:mm')}"></td>
 						</tr>
 					</tbody>
 				</table>

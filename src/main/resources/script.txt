@@ -1,9 +1,10 @@
+Indexes:
 FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
 FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDate as appointmentDate TEXT SORTABLE
 FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
 FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE 
 
-/**
+Data Model:
 {
   "username": "abhishek",
   "name": "abhie",
@@ -15,7 +16,7 @@ FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SO
   "appointmentId": "ID2772",
   "updatedTime": "2022-04-19T20:58:26.815"
 }
-**/
+
 
 Sample searches:
 

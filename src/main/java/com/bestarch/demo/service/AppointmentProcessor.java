@@ -3,8 +3,6 @@ package com.bestarch.demo.service;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -41,32 +39,33 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
         random.setSeed("ABC".getBytes("UTF-8"));
 	}
 
-//	@Override
-//	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
-//		AppointmentRequestStream appointmentRequest = record.getValue();
-//		String updatedTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-//		String key = "appointment:" + appointmentRequest.getUsername();
-//		
-//		try {
-//			TimeUnit.SECONDS.sleep(5);
-//		} catch (InterruptedException e) {
-//		}
-//		String status = AppointmentUtil.APPOINTMENT_STATUS_REJECTED;
-//		int generatedSuffix = random.nextInt(10000);
-//		if (generatedSuffix % 5 != 0) {
-//			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
-//			redisTemplate.opsForHash().put(key, "appointmentId", "ID"+generatedSuffix);
-//		} 
-//		redisTemplate.opsForHash().put(key, "status", status);
-//		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
-//	}
-	
+	/*
 	@Override
 	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
 		AppointmentRequestStream appointmentRequest = record.getValue();
 		String updatedTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-		String key = appointmentRequest.getKey();
+		String key = "appointment:" + appointmentRequest.getUsername();
 		
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+		}
+		String status = AppointmentUtil.APPOINTMENT_STATUS_REJECTED;
+		int generatedSuffix = random.nextInt(10000);
+		if (generatedSuffix % 5 != 0) {
+			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
+			redisTemplate.opsForHash().put(key, "appointmentId", "ID"+generatedSuffix);
+		} 
+		redisTemplate.opsForHash().put(key, "status", status);
+		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
+	}
+	*/
+	
+	
+	@Override
+	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
+		AppointmentRequestStream appointmentRequest = record.getValue();
+		String key = appointmentRequest.getKey();
 		try {
 			TimeUnit.SECONDS.sleep(5);
 		} catch (InterruptedException e) {
