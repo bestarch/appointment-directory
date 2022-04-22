@@ -3,10 +3,10 @@ package com.bestarch.demo.service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +21,10 @@ import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.util.AppointmentUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redislabs.lettusearch.AggregateOptions;
+import com.redislabs.lettusearch.AggregateOptions.Operation;
+import com.redislabs.lettusearch.AggregateOptions.Operation.GroupBy.Reducer;
+import com.redislabs.lettusearch.AggregateResults;
 import com.redislabs.lettusearch.Document;
 import com.redislabs.lettusearch.RediSearchCommands;
 import com.redislabs.lettusearch.SearchOptions;
@@ -36,10 +40,10 @@ import com.redislabs.modules.rejson.JReJSON;
 public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectoryService {
 	
 	@Autowired
-	//private UnifiedJedis unifiedJedis;
 	private JReJSON jreJSON; 
 	
 	private final static String QUERY = "*";
+	private final static String AGGREGATE_QUERY = "@appointmentDateTime:[%d %d]";
 	
 	@Autowired
 	private StatefulRediSearchConnection<String, String> connection;
@@ -96,10 +100,25 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 		return results;
 	}
 	
-	public Map<String, Integer> getAppointmentStats() {
-		Map<String, Integer> map = new HashMap<>();
-		
-		return map;
+	public AggregateResults<String> getAppointmentStats() {
+		RediSearchCommands<String, String> commands = connection.sync();
+		Collection<String> grpBy = Arrays.asList(new String[] {"aptDate"});
+		Reducer reducer = Reducer.Count.of("numOfAppts");
+		Operation.SortBy.Property sortProperty = Operation.SortBy.Property.builder()
+				.property("aptDate")
+				.order(Operation.Order.Asc)
+				.build();
+		AggregateOptions aggregateOptions = AggregateOptions.builder()
+				.apply("timefmt(@appointmentDateTime)", "aptDateTemp")
+				.apply("substr(@aptDateTemp,0,10)", "aptDate")
+				.groupBy(grpBy, reducer)
+				.sortBy(sortProperty)
+				.build();
+		long fromDate = LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+		long toDate = LocalDateTime.now().plusDays(14).atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+		AggregateResults<String> result = commands.aggregate("idx-aptDate", String.format(AGGREGATE_QUERY, fromDate, toDate), aggregateOptions);
+		System.out.println(result);
+		return result;
 	}
 
 	public void addNewAppointment(Appointment appointment) {
@@ -112,7 +131,7 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 		String apptDateStr = appointment.getAppointmentDateStr();
 		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
 		
-		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())/1000;
+		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond());
 		appointment.setAppointmentDateTime(suffix);
 		String key = "appointment:"+username+":"+suffix;
 		
@@ -129,6 +148,8 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 	}
 	
 	public static void main(String[] args) {
+		System.out.println(LocalDateTime.now().plusDays(14).atZone(ZoneId.systemDefault()).toInstant().getEpochSecond());
+		System.out.println(System.currentTimeMillis());
 		//String createdTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 		//appointment.setAppointmentDate(apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH)));
 		//String suffix = apptDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd-hh", Locale.ENGLISH));

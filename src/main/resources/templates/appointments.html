@@ -14,7 +14,7 @@
 	<!-- Bootstrap core CSS -->
 	<link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="/assets/dist/css/dashboard.css" rel="stylesheet">
-
+	
 	<style>
 		.bd-placeholder-img {
 			font-size: 1.125rem;
@@ -30,6 +30,11 @@
 			}
 		}
 	</style>
+	
+	<script>
+	    var dates = "[[${dates}]]";
+	    var count = "[[${count}]]";
+	</script>
 
 	<!-- Custom styles for this template -->
 	<link href="form-validation.css" rel="stylesheet">
@@ -98,19 +103,31 @@
 		</main>
 
 	</div>
-
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="/assets/dist/js/dashboard.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="/assets/custom/chart.min.js"></script>
 	<script src="/assets/custom/mychart.js"></script>
 	
 	<script>
+  
 	  const myChart = new Chart(
 	    document.getElementById('myChart'),
 	    config
 	  );
 	</script>
+	
+	<script>
+		$(document).ready(function() {
+			
+			var list = '${dates}';
+			$.each(list, function( index, value ) {
+				alert( index + ": " + value );
+			});
+			
+		});
+</script>
 
 </body>
 

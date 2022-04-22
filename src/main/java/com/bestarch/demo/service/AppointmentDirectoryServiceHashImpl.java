@@ -17,6 +17,7 @@ import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.repository.AppointmentCrudRepository;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.lettusearch.AggregateResults;
 import com.redislabs.lettusearch.SearchResults;
 
 @Service
@@ -35,10 +36,8 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 		return appointments;
 	}
 	
-	public Map<String, Integer> getAppointmentStats() {
-		Map<String, Integer> map = new HashMap<>();
-		
-		return map;
+	public AggregateResults<String> getAppointmentStats() {
+		throw new RuntimeException("Not implemented");
 	}
 
 	public void addNewAppointment(Appointment appointment) {
@@ -52,7 +51,7 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 		String apptDateStr = appointment.getAppointmentDateStr();
 		LocalDateTime apptDate = LocalDateTime.parse(apptDateStr);
 		
-		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli())/1000;
+		long suffix = (apptDate.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond());
 		
 		String key = "appointment:"+username+":"+suffix;
 		

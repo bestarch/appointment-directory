@@ -1,5 +1,6 @@
 package com.bestarch.demo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.service.AppointmentDirectoryService;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.lettusearch.AggregateResults;
 import com.redislabs.lettusearch.SearchResults;
 
 @Controller
@@ -36,8 +38,17 @@ public class AppointmentDirectoryController {
 	@GetMapping(value = {"/", "/appointments"})
 	public ModelAndView getAppointments(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int page) {
 		List<Appointment> appointments = appointmentDirectoryService.getAppointments(offset, page);
+		AggregateResults<String> result = appointmentDirectoryService.getAppointmentStats();
+		List<String> dates = new ArrayList<>();
+		List<Integer> count = new ArrayList<>();
+		result.stream().forEach(m -> {
+			dates.add((String)m.get("aptDate"));
+			count.add(Integer.valueOf((String)m.get("numOfAppts")));
+		});
 		ModelAndView mv = new ModelAndView("appointments");
         mv.addObject("appointments", appointments);
+        mv.addObject("dates", dates);
+        mv.addObject("count", count);
 		return mv;
 	}
 	

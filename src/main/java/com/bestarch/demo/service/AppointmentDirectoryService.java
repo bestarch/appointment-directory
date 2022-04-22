@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.lettusearch.AggregateResults;
 import com.redislabs.lettusearch.SearchResults;
 
 @Service
@@ -29,6 +30,8 @@ public abstract class AppointmentDirectoryService {
 	public abstract List<Appointment> getAppointments(int offset, int page);
 	
 	public abstract SearchResults<String, String> getAppointments_v2(int offset, int page);
+	
+	public abstract AggregateResults<String> getAppointmentStats();
 	
 	public abstract void addNewAppointment(Appointment appointment);
 
