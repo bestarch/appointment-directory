@@ -17,7 +17,7 @@ public class Appointment {
 
 	@Id
 	private String username;
-	private String name;
+	private String doctorName;
 	private String appointmentId;
 	private String contactNo;
 	private Long appointmentDateTime;

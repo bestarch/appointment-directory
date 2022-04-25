@@ -7,7 +7,7 @@ FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SO
 Data Model:
 {
   "username": "abhishek",
-  "name": "abhie",
+  "doctorName": "Dr. ABC",
   "contactNo": "12321",
   "appointmentDate": "2022-04-11T20:58",
   "status": "Approved",

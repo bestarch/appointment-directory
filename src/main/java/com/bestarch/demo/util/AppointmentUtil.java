@@ -8,7 +8,7 @@ public class AppointmentUtil {
 	
 	public static final String APPOINTMENT_STATUS_NEW = "Submitted";
 	
-	public static final String APPOINTMENT_STATUS_APPROVED = "Approved";
+	public static final String APPOINTMENT_STATUS_CONFIRMED = "Confirmed";
 	
 	public static final String APPOINTMENT_STATUS_REJECTED = "Rejected";
 	

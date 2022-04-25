@@ -7,7 +7,7 @@
 	<meta name="description" content="">
 	<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 	<meta name="generator" content="Hugo 0.88.1">
-	<title>Appointment</title>
+	<title>Appointment for Doctor</title>
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
 
@@ -53,7 +53,7 @@
 
 				<form action="#" th:action="@{/appointment}" th:object="${appointment}" method="post">
 
-					<div class="row mb-3">
+					<!--<div class="row mb-3">
 						<div class="col-md-4 themed-grid-col">
 							<label for="firstName" class="form-label">Name</label>
 						</div>
@@ -61,11 +61,26 @@
 							<input type="text" class="form-control" id="firstName" th:field="*{name}" required>
 						</div>
 						<div class="col-md-4 themed-grid-col"></div>
+					</div>-->
+					
+					<div class="row mb-3">
+						<div class="col-md-4 themed-grid-col">
+							<label for="doctorName" class="form-label">Doctor</label>
+						</div>
+						<div class="col-md-4 themed-grid-col">
+							<select class="form-control" th:field="*{doctorName}" id="doctorName" required>
+							  <option value="Dr. Richard Girardi">Dr. Richard Girardi </option>
+							  <option value="Dr. John Brown">Dr. John Brown</option>
+							  <option value="Dr. Robert Adams">Dr. Robert Adams</option>
+							  <option value="Dr. Rio Trento">Dr. Rio Trento</option>
+							</select>
+						</div>
+						<div class="col-md-4 themed-grid-col"></div>
 					</div>
 
 					<div class="row mb-3">
 						<div class="col-md-4 themed-grid-col">
-							<label for="username" class="form-label">Username/email</label>
+							<label for="username" class="form-label">Representative/self</label>
 						</div>
 						<div class="col-md-4 themed-grid-col">
 							<input type="text" class="form-control" id="username" th:field="*{username}" readonly>
@@ -109,7 +124,7 @@
 							<a class="w-100 btn btn-primary btn-sm" href="/appointments">Cancel</a>
 						</div>
 						<div class="col-md-4 themed-grid-col">
-							<input type="submit" class="w-100 btn btn-primary btn-sm" value="Create appointment" />
+							<input type="submit" class="w-100 btn btn-primary btn-sm" value="Submit the request" />
 						</div>
 						<div class="col-md-4 themed-grid-col"></div>
 					</div>

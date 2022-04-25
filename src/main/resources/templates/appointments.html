@@ -64,7 +64,7 @@
 					<thead>
 						<tr>
 							<th scope="col">Appointment Id</th>
-							<th scope="col">Name</th>
+							<th scope="col">Doctor</th>
 							<th scope="col">User/Email</th>
 							<th scope="col">Appointment date</th>
 							<th scope="col">Contact Number</th>
@@ -76,7 +76,7 @@
 					<tbody>
 						<tr th:each="appointment: ${appointments}">
 							<td th:text="${appointment.appointmentId}"></td>
-							<td th:text="${appointment.name}"></td>
+							<td th:text="${appointment.doctorName}"></td>
 							<td th:text="${appointment.username}"></td>
 							<td>
 								<span class="badge rounded-pill bg-success" th:text="${#dates.format(appointment.appointmentDateTime*1000, 'dd-MM-yyyy HH:mm')}" />
@@ -85,8 +85,8 @@
 							<td th:text="${appointment.contactNo}"></td>
 
 							<td>
-								<span class="badge rounded-pill bg-success" th:if="${appointment.status} == 'Approved'" th:text="Approved" />
-								<span class="badge rounded-pill bg-primary" th:unless="${appointment.status} == 'Approved'" th:text="${appointment.status}" />
+								<span class="badge rounded-pill bg-success" th:if="${appointment.status} == 'Confirmed'" th:text="Confirmed" />
+								<span class="badge rounded-pill bg-primary" th:unless="${appointment.status} == 'Confirmed'" th:text="${appointment.status}" />
 							</td>
 							<td th:text="${#dates.format(appointment.createdTime*1000, 'dd-MM-yyyy HH:mm')}"></td>
 							<td th:if="${appointment.updatedTime == null}"></td>
@@ -97,7 +97,7 @@
 			</div>
 
 			<div class="col-12">
-				<a href="/new-appointment" class="btn btn-primary">Create new appointment</a>
+				<a href="/new-appointment" class="btn btn-primary">Schedule an appointment</a>
 			</div>
 			
 		</main>
