@@ -1,0 +1,34 @@
+Indexes:
+FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
+FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
+FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
+FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE 
+
+Data Model:
+{
+  "username": "abhishek",
+  "name": "abhie",
+  "contactNo": "12321",
+  "appointmentDate": "2022-04-11T20:58",
+  "status": "Approved",
+  "description": "fweferferererre",
+  "createdTime": "2022-04-19T20:58:21.748",
+  "appointmentId": "ID2772",
+  "updatedTime": "2022-04-19T20:58:26.815"
+}
+
+
+Sample searches:
+
+FT.SEARCH idx-status @status:{Approved}
+FT.SEARCH idx-desc "@description:fwef*"
+
+FT.SEARCH idx-aptDate @appointmentDate:[2022-04-01 2022-04-30] SORTBY appointmentDate desc
+FT.SEARCH idx-status * limit 2 2
+
+FT.SEARCH idx-createdTime * limit 2 2
+
+Aggregations:
+FT.AGGREGATE idx-aptDate "@appointmentDateTime:[1650602575 1651812175]" APPLY timefmt(@appointmentDateTime) AS aptDateTemp APPLY substr(@aptDateTemp,0,10) AS aptDate GROUPBY 1 @aptDate REDUCE COUNT 0 AS numOfAppts SORTBY 2 @aptDate ASC
+
+

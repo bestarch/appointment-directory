@@ -3,8 +3,6 @@ package com.bestarch.demo.service;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +16,8 @@ import org.springframework.stereotype.Component;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
 import com.bestarch.demo.util.AppointmentUtil;
+import com.redislabs.modules.rejson.JReJSON;
+import com.redislabs.modules.rejson.Path;
 
 @Component
 public class AppointmentProcessor implements StreamListener<String, ObjectRecord<String, AppointmentRequestStream>> {
@@ -28,6 +28,9 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	
+	@Autowired
+	private JReJSON jreJSON; 
+	
 	private SecureRandom random;
 	
 	@PostConstruct
@@ -36,6 +39,7 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
         random.setSeed("ABC".getBytes("UTF-8"));
 	}
 
+	/*
 	@Override
 	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
 		AppointmentRequestStream appointmentRequest = record.getValue();
@@ -54,6 +58,26 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 		} 
 		redisTemplate.opsForHash().put(key, "status", status);
 		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
+	}
+	*/
+	
+	
+	@Override
+	public void onMessage(ObjectRecord<String, AppointmentRequestStream> record) {
+		AppointmentRequestStream appointmentRequest = record.getValue();
+		String key = appointmentRequest.getKey();
+		try {
+			TimeUnit.SECONDS.sleep(5);
+		} catch (InterruptedException e) {
+		}
+		String status = AppointmentUtil.APPOINTMENT_STATUS_REJECTED;
+		int generatedSuffix = random.nextInt(10000);
+		if (generatedSuffix % 5 != 0) {
+			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
+			jreJSON.set(key, "ID"+generatedSuffix, new Path("appointmentId"));
+		} 
+		jreJSON.set(key, status, new Path("status"));
+		jreJSON.set(key, System.currentTimeMillis()/1000, new Path("updatedTime"));
 	}
 
 }

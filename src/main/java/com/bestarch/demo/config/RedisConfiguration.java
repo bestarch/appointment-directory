@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.RedisSystemException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -25,7 +25,18 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer.StreamMessageListenerContainerOptions;
 import org.springframework.data.redis.stream.Subscription;
 
+import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
+import com.redislabs.lettusearch.RediSearchClient;
+import com.redislabs.lettusearch.StatefulRediSearchConnection;
+//import com.redislabs.modules.rejson.JReJSON;
+import com.redislabs.modules.rejson.JReJSON;
+
+import io.lettuce.core.RedisURI;
+import redis.clients.jedis.DefaultJedisClientConfig;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisClientConfig;
 
 @Configuration
 class RedisConfiguration {
@@ -52,6 +63,37 @@ class RedisConfiguration {
 		redisStandaloneConfiguration.setPassword(rp);
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
+	
+//	@Bean
+//	public UnifiedJedis unifiedJedis() {
+//		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
+//		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
+//		UnifiedJedis unifiedJedis = new JedisPooled(hostAndPort, jedisClientConfig);
+//		return unifiedJedis;
+//	}
+	
+	@Bean
+	public JReJSON jreJSON() {
+		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
+		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
+		Jedis jedis = new Jedis(hostAndPort, jedisClientConfig);
+		JReJSON jreJSON = new JReJSON(jedis);
+		return jreJSON;
+	}
+	
+//	@Bean(destroyMethod = "shutdown")
+//	RediSearchClient client(LettuceConnectionFactory redisConnectionFactory) {
+//		//ClientResources clientResources = DefaultClientResources.create();
+//		return RediSearchClient.create(redisConnectionFactory.getClientResources());
+//	}
+	
+//	@Bean(destroyMethod = "close")
+//	StatefulRediSearchConnection<String, String> connection() {
+//		RedisURI redisURI = RedisURI.create(server, Integer.valueOf(port));
+//		redisURI.setPassword(pswd.toCharArray());
+//		RediSearchClient rediSearchClient = RediSearchClient.create(redisURI);
+//		return rediSearchClient.connect();
+//	}
 
 	@Bean
 	public RedisTemplate<String, String> redisTemplate() {
@@ -70,7 +112,7 @@ class RedisConfiguration {
 		template.afterPropertiesSet();
 		try {
 			template.opsForStream().createGroup(newAppointmentStream, newAppointmentStream);
-		} catch (RedisSystemException e) {
+		} catch (DataAccessException e) {
 			System.out.println("Ognoring the exception. Redis Stream group may be present already. Skipping it");
 			e.printStackTrace();
 		}
