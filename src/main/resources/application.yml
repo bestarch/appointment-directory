@@ -1,0 +1,32 @@
+spring:
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on-save
+      namespace: spring:session
+  redis:
+    host: redis-10209.c100.us-east-1-4.ec2.cloud.redislabs.com
+    port: 10209
+    password: wUJjKN6j9VdVoWYPDKN8Zp910zeP9vWn
+  main:
+    allow-circular-references: true
+    
+    
+server:
+  servlet:
+    session:
+      timeout: 300
+
+  
+stream:
+  newappointment: newappointment
+  
+app:
+  users:
+    - abhishek
+    - john
+    - rahul
+    - jack
+
+
+

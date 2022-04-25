@@ -3,9 +3,7 @@ package com.bestarch.demo.service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +39,7 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 	}
 
 	public void addNewAppointment(Appointment appointment) {
-		String username = appointmentUtil.getUsername().getUsername();
+		String username = appointmentUtil.getUsername();
 		long createdTime = System.currentTimeMillis()/1000;
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
 		appointment.setCreatedTime(createdTime);

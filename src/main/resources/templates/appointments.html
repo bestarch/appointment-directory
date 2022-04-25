@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <head>
 	<meta charset="utf-8">
@@ -111,24 +111,9 @@
 	<script src="/assets/custom/mychart.js"></script>
 	
 	<script>
-  
-	  const myChart = new Chart(
-	    document.getElementById('myChart'),
-	    config
-	  );
+	  const myChart = new Chart(document.getElementById('myChart'), config);
 	</script>
 	
-	<script>
-		$(document).ready(function() {
-			
-			var list = '${dates}';
-			$.each(list, function( index, value ) {
-				alert( index + ": " + value );
-			});
-			
-		});
-</script>
-
 </body>
 
 </html>

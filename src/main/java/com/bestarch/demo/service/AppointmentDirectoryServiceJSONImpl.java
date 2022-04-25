@@ -122,7 +122,7 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 	}
 
 	public void addNewAppointment(Appointment appointment) {
-		String username = appointmentUtil.getUsername().getUsername();
+		String username = appointmentUtil.getUsername();
 		long createdTime = System.currentTimeMillis()/1000;
 		appointment.setStatus(AppointmentUtil.APPOINTMENT_STATUS_NEW);
 		appointment.setCreatedTime(createdTime);
