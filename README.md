@@ -32,7 +32,9 @@ New appointment:
 
 **Run with docker**
 
-_Make sure redis server is running already_: You may use Redis Enterprise server to point your application to the application.
+Docker image for this application: **abhishekcoder/appointment-directory:latest**
+
+_Make sure Redis Enterprise server or RedisStack server is already running_: 
 
 Execute the following command to run the application:
 > **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=<REDIS_URL> -e SPRING_REDIS_PORT=<REDIS_PORT> -e SPRING_REDIS_PASSWORD=<REDIS_PSWD> abhishekcoder/appointment-directory:latest**
