@@ -45,14 +45,24 @@ Execute the following command to run the application:
 For instance:
 > **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=localhost -e SPRING_REDIS_PORT=6379 -e SPRING_REDIS_PASSWORD=e9gydixtEWqN4tYKgRnhUXysXADYJzZ9 abhishekcoder/appointment-directory:latest**
 
+**Executing mandatory index scripts**
+
+Before using the application, connect to the Redis instance using **redis-cli** command line utility and execute following index scripts. This is necessary for the search feature to work.
+
+	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
+	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
+	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
+	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
+
 <hr/>
 
 **Run with docker compose**
 
-Execute the following command to run the application. This will create 2 containers one for web app and another for redis server. The two containers are part of the same private network:
+This is the fastest way to spin-up the application and redis server. No need to execute any database scripts. All will be done by docker-compose utility behind the scene. 
+Just execute the following command to run the application. This will create required docker objects including the needed containers one each for web-app and redis server. These containers are part of the same private network:
 > **docker compose up**
 
-Execute the following command to destroy the above 2 containers in the private network:
+Execute the following command to tier down the docker artifacts created above including the private network:
 > **docker compose down**
 
 <hr/>
