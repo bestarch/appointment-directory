@@ -26,7 +26,6 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer.Stre
 import org.springframework.data.redis.stream.Subscription;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
-//import com.redislabs.modules.rejson.JReJSON;
 import com.redislabs.modules.rejson.JReJSON;
 
 import redis.clients.jedis.DefaultJedisClientConfig;
@@ -49,14 +48,19 @@ class RedisConfiguration {
 	@Value("${spring.redis.password}")
 	private String pswd;
 	
+	@Value("${spring.redis.auth}")
+	private boolean requiresPswd;
+	
 	@Autowired
     private StreamListener<String, ObjectRecord<String, AppointmentRequestStream>> streamListener;
 
 	@Bean
 	public RedisConnectionFactory redisConnectionFactory() {
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(server, Integer.valueOf(port));
-		RedisPassword rp = RedisPassword.of(pswd);
-		redisStandaloneConfiguration.setPassword(rp);
+		if (requiresPswd) {
+			RedisPassword rp = RedisPassword.of(pswd);
+			redisStandaloneConfiguration.setPassword(rp);
+		}
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 	
@@ -64,7 +68,10 @@ class RedisConfiguration {
 	@Bean
 	public JReJSON jreJSON() {
 		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
-		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
+		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().build();
+		if (requiresPswd) {
+			jedisClientConfig.updatePassword(pswd);
+		}
 		Jedis jedis = new Jedis(hostAndPort, jedisClientConfig);
 		JReJSON jreJSON = new JReJSON(jedis);
 		return jreJSON;

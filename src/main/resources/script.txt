@@ -10,7 +10,7 @@ Data Model:
   "doctorName": "Dr. ABC",
   "contactNo": "12321",
   "appointmentDate": "2022-04-11T20:58",
-  "status": "Approved",
+  "status": "Confirmed",
   "description": "fweferferererre",
   "createdTime": "2022-04-19T20:58:21.748",
   "appointmentId": "ID2772",

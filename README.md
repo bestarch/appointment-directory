@@ -51,3 +51,16 @@ Execute the following command to run the application. This will create 2 contain
 
 Execute the following command to destroy the above 2 containers in the private network:
 > **docker compose down**
+
+<hr/>
+
+**Executing mandatory index scripts**
+
+Before using the application, make sure to execute following index scripts. This is necessary for the search feature to work.
+
+	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
+	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
+	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
+	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
+
+

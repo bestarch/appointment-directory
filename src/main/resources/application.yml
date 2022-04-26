@@ -8,6 +8,7 @@ spring:
     host: redis-10209.c100.us-east-1-4.ec2.cloud.redislabs.com
     port: 10209
     password: wUJjKN6j9VdVoWYPDKN8Zp910zeP9vWn
+    auth: true
   main:
     allow-circular-references: true
     
