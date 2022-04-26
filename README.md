@@ -8,6 +8,8 @@ This application:
 * RediSearch 2.2 redis module for indexing and searching through the JSON objects and aggregating the result for analytic purposes
 * _Optional: Can use RedisStack which has RediSearch and RediJSON included in it by default_
 
+![appt_directory (1)](https://user-images.githubusercontent.com/26322220/165262079-6b52de92-0b57-4fca-9d92-4aae4fb4c0ea.png)
+
 Application can be deployed to Kubernetes env as well. It contains:
 * the kubernetes deployment, 
 * configmap and 
@@ -29,6 +31,7 @@ Appointment list page:
 New appointment:
 
 <img width="674" alt="Screenshot 2022-04-26 at 8 31 32 AM" src="https://user-images.githubusercontent.com/26322220/165211988-18d91d8b-40a0-4e1f-bd77-fa5ddae37b42.png">
+
 
 **Run with docker**
 
@@ -56,11 +59,14 @@ Execute the following command to destroy the above 2 containers in the private n
 
 **Executing mandatory index scripts**
 
-Before using the application, make sure to execute following index scripts. This is necessary for the search feature to work.
+Before using the application, connect to the Redis instance using redis-cli command line utility and execute following index scripts. This is necessary for the search feature to work.
 
 	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
 	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
 	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
 	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
+
+If you are using docker-compose utility to run the application, use following command to connect to Redis server.(Note: Here port 6377 on host machine is mapped to port 6379 on docker container):
+> redis-cli -p 6377
 
 
