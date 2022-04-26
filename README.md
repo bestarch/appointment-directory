@@ -8,6 +8,8 @@ This application:
 * RediSearch 2.2 redis module for indexing and searching through the JSON objects and aggregating the result for analytic purposes
 * _Optional: Can use RedisStack which has RediSearch and RediJSON included in it by default_
 
+![appt_directory (1)](https://user-images.githubusercontent.com/26322220/165262079-6b52de92-0b57-4fca-9d92-4aae4fb4c0ea.png)
+
 Application can be deployed to Kubernetes env as well. It contains:
 * the kubernetes deployment, 
 * configmap and 
