@@ -1,4 +1,4 @@
-# Sample appointment directory application for scheduling appointment with doctors
+# Sample appointment directory app (for scheduling appointment with doctors)
 
 This application:
 * Leverages Java 1.8, Spring Boot 2.6, Maven, Redis, Thymeleaf as technology stack
