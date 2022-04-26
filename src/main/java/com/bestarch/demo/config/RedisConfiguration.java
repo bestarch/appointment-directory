@@ -25,14 +25,10 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer;
 import org.springframework.data.redis.stream.StreamMessageListenerContainer.StreamMessageListenerContainerOptions;
 import org.springframework.data.redis.stream.Subscription;
 
-import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
-import com.redislabs.lettusearch.RediSearchClient;
-import com.redislabs.lettusearch.StatefulRediSearchConnection;
 //import com.redislabs.modules.rejson.JReJSON;
 import com.redislabs.modules.rejson.JReJSON;
 
-import io.lettuce.core.RedisURI;
 import redis.clients.jedis.DefaultJedisClientConfig;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
@@ -64,13 +60,6 @@ class RedisConfiguration {
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 	
-//	@Bean
-//	public UnifiedJedis unifiedJedis() {
-//		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
-//		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().password(pswd).build();
-//		UnifiedJedis unifiedJedis = new JedisPooled(hostAndPort, jedisClientConfig);
-//		return unifiedJedis;
-//	}
 	
 	@Bean
 	public JReJSON jreJSON() {
@@ -81,20 +70,6 @@ class RedisConfiguration {
 		return jreJSON;
 	}
 	
-//	@Bean(destroyMethod = "shutdown")
-//	RediSearchClient client(LettuceConnectionFactory redisConnectionFactory) {
-//		//ClientResources clientResources = DefaultClientResources.create();
-//		return RediSearchClient.create(redisConnectionFactory.getClientResources());
-//	}
-	
-//	@Bean(destroyMethod = "close")
-//	StatefulRediSearchConnection<String, String> connection() {
-//		RedisURI redisURI = RedisURI.create(server, Integer.valueOf(port));
-//		redisURI.setPassword(pswd.toCharArray());
-//		RediSearchClient rediSearchClient = RediSearchClient.create(redisURI);
-//		return rediSearchClient.connect();
-//	}
-
 	@Bean
 	public RedisTemplate<String, String> redisTemplate() {
 		RedisTemplate<String, String> template = new RedisTemplate<>();
