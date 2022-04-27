@@ -1,7 +1,7 @@
 # Sample appointment directory app (for scheduling appointment with doctors)
 
 This application:
-* Leverages Java 1.8, Spring Boot 2.6, Maven, Redis, Thymeleaf as a technology stack
+* Leverages Java 1.8, Spring Boot 2.6, Maven, Redis, Thymeleaf, JQuery, Chart.js, Bootstrap as a technology stack
 * Uses Redis as external session store
 * Redis Streams as asynchronous processing engine for rejecting/approving appointments
 * RedisJSON 2.0 redis module for storing appointment model objects
