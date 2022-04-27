@@ -5,9 +5,9 @@ spring:
       flush-mode: on-save
       namespace: spring:session
   redis:
-    host: redis-10209.c100.us-east-1-4.ec2.cloud.redislabs.com
-    port: 10209
-    password: wUJjKN6j9VdVoWYPDKN8Zp910zeP9vWn
+    host: redis-18697.c284.us-east1-2.gce.cloud.redislabs.com
+    port: 18697
+    password: h0wH3KVtWQwVpYbRFaG5oZUD1wZCF0wY
     auth: true
   main:
     allow-circular-references: true
