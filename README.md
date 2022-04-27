@@ -13,9 +13,7 @@ This application:
 Application can be deployed to Kubernetes env as well. It contains:
 * the kubernetes deployment, 
 * configmap and 
-* services YAML files.
- 
-This uses service type loadbalancer with annotation type NLB deployed in AWS EKS.
+* service YAML file for loadbalancer type
 
 
 **Snapshots of the application**
