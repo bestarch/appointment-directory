@@ -15,6 +15,8 @@ Application can be deployed to Kubernetes env as well. It contains:
 * configmap and 
 * service YAML file for loadbalancer type
 
+<hr/>
+<hr/>
 
 **Snapshots of the application**
 
@@ -30,6 +32,8 @@ New appointment:
 
 <img width="674" alt="Screenshot 2022-04-26 at 8 31 32 AM" src="https://user-images.githubusercontent.com/26322220/165211988-18d91d8b-40a0-4e1f-bd77-fa5ddae37b42.png">
 
+<hr/>
+<hr/>
 
 **Run with docker**
 
@@ -53,6 +57,7 @@ Before using the application, connect to the Redis instance using **redis-cli** 
 	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
 
 <hr/>
+<hr/>
 
 **Run with docker compose**
 
@@ -63,4 +68,3 @@ Just execute the following command to run the application. This will create requ
 Execute the following command to tier down the docker artifacts created above including the private network:
 > **docker compose down**
 
-<hr/>
