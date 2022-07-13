@@ -1,0 +1,33 @@
+spring:
+  session:
+    store-type: redis
+    redis:
+      flush-mode: on-save
+      namespace: spring:session
+  redis:
+    host: redis-18697.c284.us-east1-2.gce.cloud.redislabs.com
+    port: 18697
+    password: h0wH3KVtWQwVpYbRFaG5oZUD1wZCF0wY
+    auth: true
+  main:
+    allow-circular-references: true
+    
+    
+server:
+  servlet:
+    session:
+      timeout: 300
+
+  
+stream:
+  newappointment: newappointment
+  
+app:
+  users:
+    - abhishek
+    - john
+    - rahul
+    - jack
+
+
+

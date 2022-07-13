@@ -61,7 +61,7 @@ public class AppointmentDirectoryController {
 	@GetMapping(value = "/new-appointment")
 	public ModelAndView getNewEmployeeForm() {
 		ModelAndView mv = new ModelAndView("new-appointment");
-		String username = appointmentUtil.getUsername().getUsername();
+		String username = appointmentUtil.getUsername();
 		Appointment appt = new Appointment();
 		appt.setUsername(username);
         mv.addObject(appt);

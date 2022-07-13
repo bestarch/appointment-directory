@@ -3,6 +3,7 @@ package com.bestarch.demo.service;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
@@ -54,7 +55,7 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 		int generatedSuffix = random.nextInt(10000);
 		if (generatedSuffix % 5 != 0) {
 			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
-			redisTemplate.opsForHash().put(key, "appointmentId", "ID"+generatedSuffix);
+			redisTemplate.opsForHash().put(key, "appointmentId", UUID.randomUUID());
 		} 
 		redisTemplate.opsForHash().put(key, "status", status);
 		redisTemplate.opsForHash().put(key, "updatedTime", updatedTime);
@@ -73,8 +74,8 @@ public class AppointmentProcessor implements StreamListener<String, ObjectRecord
 		String status = AppointmentUtil.APPOINTMENT_STATUS_REJECTED;
 		int generatedSuffix = random.nextInt(10000);
 		if (generatedSuffix % 5 != 0) {
-			status = AppointmentUtil.APPOINTMENT_STATUS_APPROVED;
-			jreJSON.set(key, "ID"+generatedSuffix, new Path("appointmentId"));
+			status = AppointmentUtil.APPOINTMENT_STATUS_CONFIRMED;
+			jreJSON.set(key, UUID.randomUUID(), new Path("appointmentId"));
 		} 
 		jreJSON.set(key, status, new Path("status"));
 		jreJSON.set(key, System.currentTimeMillis()/1000, new Path("updatedTime"));

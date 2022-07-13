@@ -1,5 +1,4 @@
   
-  
   const data = {
     labels: dates,
     datasets: [{
@@ -13,11 +12,5 @@
   const config = {
     type: 'bar',
     data: data,
-    options: {
-        scales: {
-            x: {
-                type: 'Days'
-            }
-        }
-    }
+    options: {}
   };
