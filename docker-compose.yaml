@@ -1,25 +1,43 @@
 version: "3.9"
 services:
   web:
-    image: "abhishekcoder/appointment-directory"
+    image: "abhishekcoder/appointment-directory:latest"
     networks: 
       - web-network
     environment:
      - SPRING_REDIS_HOST=redis
      - SPRING_REDIS_PORT=6379
-     - SPRING_REDIS_PASSWORD="e9gydixtEWqN4tYKgRnhUXysXADYJzZ9"
+     - SPRING_REDIS_PASSWORD="wUJjKN6j9VdVoWYPDKN8Zp910zeP9vWn"
+     - SPRING_REDIS_AUTH=false
     depends_on:
       - redis
     build: .
     ports:
       - "8080:8080"
+      
   redis:
-    image: "redis"
+    image: "redis/redis-stack:latest"
     networks: 
       - web-network
     restart: always
     ports:
       - "6377:6379"
+      - "8001:8001"
+    
+  rediscli:
+    image: "redis:latest"
+    networks: 
+      - web-network
+    depends_on:
+      - redis
+    links:
+      - redis
+    command: >
+      sh -c "redis-cli -h redis FT.CREATE idx-status ON JSON SCHEMA $$.status as status TAG
+      && redis-cli -h redis FT.CREATE idx-aptDate ON JSON SCHEMA $$.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
+      && redis-cli -h redis FT.CREATE idx-desc ON JSON SCHEMA $$.description as description TEXT
+      && redis-cli -h redis FT.CREATE idx-createdTime ON JSON SCHEMA $$.createdTime as createdTime NUMERIC SORTABLE "
+      
 networks:
   web-network:
     driver: bridge
