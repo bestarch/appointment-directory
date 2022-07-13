@@ -38,5 +38,11 @@ spec:
                 configMapKeyRef:
                   name: my-config
                   key: SPRING_REDIS_PASSWORD
+            - name: SPRING_REDIS_AUTH
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: SPRING_REDIS_AUTH
+            
 
 

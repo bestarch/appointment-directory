@@ -2,6 +2,7 @@ package com.bestarch.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bestarch.demo.domain.Appointment;
+import com.bestarch.demo.domain.UserProfile;
 import com.bestarch.demo.service.AppointmentDirectoryService;
 import com.bestarch.demo.util.AppointmentUtil;
 import com.redislabs.lettusearch.AggregateResults;
@@ -73,6 +75,27 @@ public class AppointmentDirectoryController {
 	public String addNewAppointment(@ModelAttribute Appointment appointment, BindingResult errors, Model model) {
 		appointmentDirectoryService.addNewAppointment(appointment);
 		return "redirect:/appointments";
+	}
+	
+	@PostMapping(value = "/profile", consumes = {"application/x-www-form-urlencoded;charset=UTF-8"})
+	public String saveUserProfile(@ModelAttribute UserProfile userProfile, BindingResult errors, Model model) {
+		appointmentDirectoryService.saveUserProfile(userProfile);
+		return "redirect:/appointments";
+	}
+	
+	@GetMapping(value = {"/profile"})
+	public ModelAndView getUserProfile() {
+		String username = appointmentUtil.getUsername();
+		Optional<UserProfile> userProfile = appointmentDirectoryService.getUserProfile(username);
+		ModelAndView mv = new ModelAndView("profile");
+		if (userProfile.isPresent()) {
+			mv.addObject("userProfile", userProfile.get());
+		} else {
+			UserProfile profile = new UserProfile();
+			profile.setUsername(username);
+			mv.addObject("userProfile", profile);
+		}
+		return mv;
 	}
 	
 	@GetMapping(value = {"/logout"})

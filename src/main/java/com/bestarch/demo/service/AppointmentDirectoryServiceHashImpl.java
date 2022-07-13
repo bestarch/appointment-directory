@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
+import com.bestarch.demo.domain.UserProfile;
 import com.bestarch.demo.repository.AppointmentCrudRepository;
 import com.bestarch.demo.util.AppointmentUtil;
 import com.redislabs.lettusearch.AggregateResults;
@@ -65,6 +66,16 @@ public class AppointmentDirectoryServiceHashImpl extends AppointmentDirectorySer
 
 	@Override
 	public SearchResults<String, String> getAppointments_v2(int offset, int page) {
+		throw new RuntimeException("Not implemented");
+	}
+
+	@Override
+	public void saveUserProfile(UserProfile userProfile) {
+		throw new RuntimeException("Not implemented");
+	}
+
+	@Override
+	public Optional<UserProfile> getUserProfile(String username) {
 		throw new RuntimeException("Not implemented");
 	}
 
