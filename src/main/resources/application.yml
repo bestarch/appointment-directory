@@ -5,10 +5,10 @@ spring:
       flush-mode: on-save
       namespace: spring:session
   redis:
-    host: redis-18697.c284.us-east1-2.gce.cloud.redislabs.com
-    port: 18697
+    host: localhost
+    port: 6379
     password: h0wH3KVtWQwVpYbRFaG5oZUD1wZCF0wY
-    auth: true
+    auth: false
   main:
     allow-circular-references: true
     

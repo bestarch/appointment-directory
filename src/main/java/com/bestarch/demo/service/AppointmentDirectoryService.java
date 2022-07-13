@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bestarch.demo.domain.Appointment;
+import com.bestarch.demo.domain.UserProfile;
 import com.bestarch.demo.util.AppointmentUtil;
 import com.redislabs.lettusearch.AggregateResults;
 import com.redislabs.lettusearch.SearchResults;
@@ -34,5 +35,9 @@ public abstract class AppointmentDirectoryService {
 	public abstract AggregateResults<String> getAppointmentStats();
 	
 	public abstract void addNewAppointment(Appointment appointment);
+	
+	public abstract void saveUserProfile(UserProfile userProfile);
+
+	public abstract Optional<UserProfile> getUserProfile(String username);
 
 }

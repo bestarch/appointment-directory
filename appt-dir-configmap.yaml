@@ -8,3 +8,4 @@ data:
   SPRING_REDIS_HOST: "redis-19154.c100.us-east-1-4.ec2.cloud.redislabs.com"
   SPRING_REDIS_PORT: "19154"
   SPRING_REDIS_PASSWORD: "e9gydixtEWqN4tYKgRnhUXysXADYJzZ9"
+  SPRING_REDIS_AUTH: true

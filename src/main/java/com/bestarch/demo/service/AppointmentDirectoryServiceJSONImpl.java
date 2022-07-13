@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.AppointmentRequestStream;
+import com.bestarch.demo.domain.UserProfile;
+import com.bestarch.demo.repository.UserProfileCrudRepository;
 import com.bestarch.demo.util.AppointmentUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.redislabs.lettusearch.AggregateOptions;
@@ -47,6 +49,9 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
 	
 	@Autowired
 	private StatefulRediSearchConnection<String, String> connection;
+	
+	@Autowired
+	private UserProfileCrudRepository userProfileCrudRepository;
 	
 	private final static ObjectMapper objectMapper = new ObjectMapper();
 	
@@ -145,6 +150,18 @@ public class AppointmentDirectoryServiceJSONImpl extends AppointmentDirectorySer
                 .withStreamKey(newAppointmentStream);
 		
 		redisTemplate.opsForStream().add(newAppointment);
+	}
+	
+	@Override
+	public void saveUserProfile(UserProfile userProfile) {
+		String username = appointmentUtil.getUsername();
+		userProfile.setUsername(username);
+		userProfileCrudRepository.save(userProfile);
+	}
+
+	@Override
+	public Optional<UserProfile> getUserProfile(String username) {
+		return userProfileCrudRepository.findById(username);
 	}
 	
 	public static void main(String[] args) {
