@@ -21,12 +21,12 @@ This application:
    
    * *Executing mandatory index scripts*
 
-   Before using the application, connect to the Redis instance using **redis-cli** command line utility and execute following index scripts. This is  necessary for the search feature to work.
+     Before using the application, connect to the Redis instance using **redis-cli** command line utility and execute following index scripts. This is   necessary for the search feature to work.
 
-   >	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
-   >	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
-   >	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
-   >	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
+   	  > FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG <br>
+   	  > FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE <br>
+   	  > FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT <br>
+   	  > FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE 
 
    * Run the application file 'AppointmentDirectoryApplication.java'
    * open http://localhost:8080
