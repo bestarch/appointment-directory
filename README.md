@@ -14,23 +14,23 @@ This application:
 
 1. **Using IDE like STS or IntelliJ**
    <br>
-   Clone the repo https://github.com/Redislabs-Solution-Architects/appointment-directory
-   Import the code into th IDE of your choice like STS or IntelliJ
-   Spin up a new or existing Redis Enterprise cluster using Redis Enterprise software OR Redis Enterprise Cloud OR run Redis Stack server on your local  machine
-   Open the application.yml file and modify the redis server url, port and password variables. If password is not required, keep the value of spring.redis.auth as 'false'
+   * Clone the repo https://github.com/Redislabs-Solution-Architects/appointment-directory
+   * Import the code into th IDE of your choice like STS or IntelliJ
+   * Spin up a new or existing Redis Enterprise cluster using Redis Enterprise software OR Redis Enterprise Cloud OR run Redis Stack server on your local  machine
+   * Open the application.yml file and modify the redis server url, port and password variables. If password is not required, keep the value of spring.redis.auth as 'false'
    
-   *Executing mandatory index scripts*
+   * *Executing mandatory index scripts*
 
    Before using the application, connect to the Redis instance using **redis-cli** command line utility and execute following index scripts. This is  necessary for the search feature to work.
 
-	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
-	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
-	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
-	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
+   >	FT.CREATE idx-status ON JSON SCHEMA $.status as status TAG
+   >	FT.CREATE idx-aptDate ON JSON SCHEMA $.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
+   >	FT.CREATE idx-desc ON JSON SCHEMA $.description as description TEXT
+   >	FT.CREATE idx-createdTime ON JSON SCHEMA $.createdTime as createdTime NUMERIC SORTABLE
 
-   Run the application file 'AppointmentDirectoryApplication.java'
-   open http://localhost:8080
-   Finally shut down the Redis Enterprise server and application server once done
+   * Run the application file 'AppointmentDirectoryApplication.java'
+   * open http://localhost:8080
+   * Finally shut down the Redis Enterprise server and application server once done
    
 2. **Using Kubernetes**
    <br>
@@ -42,7 +42,7 @@ This application:
    
 3. **Run with docker**
    <br>
-   (Install docker runtime if not installed)
+   (Install docker runtime if not installed)<br>
    Docker image for this application: **abhishekcoder/appointment-directory:latest**
 
    _Make sure 
@@ -57,7 +57,7 @@ This application:
 
 4. **Run with docker compose**
    <br>
-   (Install docker runtime if not installed)
+   (Install docker runtime if not installed)<br>
    This is the fastest way to spin-up the application and redis server. No need to execute any database scripts. All will be done by docker-compose utility  behind the scene. 
    Just execute the following command to run the application. This will create required docker objects including the needed containers one each for web-app  and redis server. These containers are part of the same private network:
    > **docker compose up**
