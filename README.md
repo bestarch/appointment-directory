@@ -10,9 +10,10 @@ This application:
 
 ![appt_directory (1)](https://user-images.githubusercontent.com/26322220/165262079-6b52de92-0b57-4fca-9d92-4aae4fb4c0ea.png)
 
-**Running the application**
+****Running the application****
 
-1. Using IDE like STS or IntelliJ
+1. **Using IDE like STS or IntelliJ**
+   <br>
    Clone the repo https://github.com/Redislabs-Solution-Architects/appointment-directory
    Import the code into th IDE of your choice like STS or IntelliJ
    Spin up a new or existing Redis Enterprise cluster using Redis Enterprise software OR Redis Enterprise Cloud OR run Redis Stack server on your local  machine
@@ -31,14 +32,16 @@ This application:
    open http://localhost:8080
    Finally shut down the Redis Enterprise server and application server once done
    
-2. Using Kubernetes
+2. **Using Kubernetes**
+   <br>
    Application can be deployed to Kubernetes cluster as well. For that respective YAML files are included. It contains:
 	* the kubernetes deployment, 
 	* configmap and 
 	* service YAML file for loadbalancer type (for deploying on Cloud)
    _make sure to execute above index scripts on redis server before running the application_
    
-3. Run with docker
+3. **Run with docker**
+   <br>
    (Install docker runtime if not installed)
    Docker image for this application: **abhishekcoder/appointment-directory:latest**
 
@@ -52,7 +55,8 @@ This application:
    For instance:
    > **docker run -p 127.0.0.1:8080:8080 -e SPRING_REDIS_HOST=localhost -e SPRING_REDIS_PORT=6379 -e SPRING_REDIS_PASSWORD=e9gydixtEWqN4tYKgRnhUXysXADYJzZ9  abhishekcoder/appointment-directory:latest**
 
-4. Run with docker compose
+4. **Run with docker compose**
+   <br>
    (Install docker runtime if not installed)
    This is the fastest way to spin-up the application and redis server. No need to execute any database scripts. All will be done by docker-compose utility  behind the scene. 
    Just execute the following command to run the application. This will create required docker objects including the needed containers one each for web-app  and redis server. These containers are part of the same private network:
