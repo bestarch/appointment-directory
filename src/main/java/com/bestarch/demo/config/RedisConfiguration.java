@@ -26,12 +26,6 @@ import org.springframework.data.redis.stream.StreamMessageListenerContainer.Stre
 import org.springframework.data.redis.stream.Subscription;
 
 import com.bestarch.demo.domain.AppointmentRequestStream;
-import com.redislabs.modules.rejson.JReJSON;
-
-import redis.clients.jedis.DefaultJedisClientConfig;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisClientConfig;
 
 @Configuration
 class RedisConfiguration {
@@ -64,19 +58,6 @@ class RedisConfiguration {
 		return new LettuceConnectionFactory(redisStandaloneConfiguration);
 	}
 	
-	
-	@Bean
-	public JReJSON jreJSON() {
-		HostAndPort hostAndPort = new HostAndPort(server, Integer.valueOf(port));
-		JedisClientConfig jedisClientConfig = DefaultJedisClientConfig.builder().build();
-		if (requiresPswd) {
-			jedisClientConfig.updatePassword(pswd);
-		}
-		Jedis jedis = new Jedis(hostAndPort, jedisClientConfig);
-		JReJSON jreJSON = new JReJSON(jedis);
-		return jreJSON;
-	}
-	
 	@Bean
 	public RedisTemplate<String, String> redisTemplate() {
 		RedisTemplate<String, String> template = new RedisTemplate<>();
@@ -95,7 +76,7 @@ class RedisConfiguration {
 		try {
 			template.opsForStream().createGroup(newAppointmentStream, newAppointmentStream);
 		} catch (DataAccessException e) {
-			System.out.println("Ognoring the exception. Redis Stream group may be present already. Skipping it");
+			System.out.println("Ignoring the exception. Redis Stream group may be present already. Skipping it");
 			e.printStackTrace();
 		}
 		return template;

@@ -1,6 +1,5 @@
 package com.bestarch.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,15 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bestarch.demo.domain.Appointment;
 import com.bestarch.demo.domain.UserProfile;
 import com.bestarch.demo.service.AppointmentDirectoryService;
 import com.bestarch.demo.util.AppointmentUtil;
-import com.redislabs.lettusearch.AggregateResults;
-import com.redislabs.lettusearch.SearchResults;
 
 @Controller
 public class AppointmentDirectoryController {
@@ -40,25 +36,11 @@ public class AppointmentDirectoryController {
 	@GetMapping(value = {"/", "/appointments"})
 	public ModelAndView getAppointments(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int page) {
 		List<Appointment> appointments = appointmentDirectoryService.getAppointments(offset, page);
-		AggregateResults<String> result = appointmentDirectoryService.getAppointmentStats();
-		List<String> dates = new ArrayList<>();
-		List<Integer> count = new ArrayList<>();
-		result.stream().forEach(m -> {
-			dates.add((String)m.get("aptDate"));
-			count.add(Integer.valueOf((String)m.get("numOfAppts")));
-		});
 		ModelAndView mv = new ModelAndView("appointments");
         mv.addObject("appointments", appointments);
-        mv.addObject("dates", dates);
-        mv.addObject("count", count);
 		return mv;
 	}
 	
-	@GetMapping(value = {"/appointments_v2"})
-	public @ResponseBody SearchResults<String, String> getAppointmentse(@RequestParam(defaultValue = "0") int offset, @RequestParam(defaultValue = "20") int page) {
-		SearchResults<String, String> appointments = appointmentDirectoryService.getAppointments_v2(offset, page);
-		return appointments;
-	}
 
 	@GetMapping(value = "/new-appointment")
 	public ModelAndView getNewEmployeeForm() {

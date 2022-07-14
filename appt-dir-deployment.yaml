@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: appointment-directory
-          image: abhishekcoder/appointment-directory
+          image: abhishekcoder/appointment-directory:basic_demo
           ports:
           - name: http
             containerPort: 8080
