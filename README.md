@@ -75,7 +75,7 @@ Login page:
 
 Appointment list page:
 
-<img width="1245" alt="image" src="https://user-images.githubusercontent.com/26322220/178891082-e06b985b-db1d-4c26-ab72-ca52027856f3.png">
+![image](https://user-images.githubusercontent.com/26322220/178931542-fd76ff44-bc1a-4f4e-9126-51c8ad4150e1.png)
 
 New appointment:
 
