@@ -26,11 +26,11 @@ Login page:
 
 Appointment list page:
 
-<img width="1093" alt="Screenshot 2022-04-26 at 8 31 07 AM" src="https://user-images.githubusercontent.com/26322220/165211956-0bafcd71-0c8e-4d32-8067-90527a89af82.png">
+<img width="1245" alt="image" src="https://user-images.githubusercontent.com/26322220/178891082-e06b985b-db1d-4c26-ab72-ca52027856f3.png">
 
 New appointment:
 
-<img width="674" alt="Screenshot 2022-04-26 at 8 31 32 AM" src="https://user-images.githubusercontent.com/26322220/165211988-18d91d8b-40a0-4e1f-bd77-fa5ddae37b42.png">
+<img width="1284" alt="image" src="https://user-images.githubusercontent.com/26322220/178891150-efda8629-4dd2-48ff-91ce-2cb8ea1c882b.png">
 
 <hr/>
 <hr/>
