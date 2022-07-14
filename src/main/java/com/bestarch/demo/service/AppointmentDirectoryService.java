@@ -26,13 +26,7 @@ public abstract class AppointmentDirectoryService {
 	@Autowired
 	protected AppointmentUtil appointmentUtil;
 	
-	public abstract Optional<Appointment> getAppointment(String appointmentId);
-
 	public abstract List<Appointment> getAppointments(int offset, int page);
-	
-	public abstract SearchResults<String, String> getAppointments_v2(int offset, int page);
-	
-	public abstract AggregateResults<String> getAppointmentStats();
 	
 	public abstract void addNewAppointment(Appointment appointment);
 	

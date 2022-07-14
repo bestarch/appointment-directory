@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   web:
-    image: "abhishekcoder/appointment-directory:latest"
+    image: "abhishekcoder/appointment-directory:basic_demo"
     networks: 
       - web-network
     environment:
@@ -33,10 +33,7 @@ services:
     links:
       - redis
     command: >
-      sh -c "redis-cli -h redis FT.CREATE idx-status ON JSON SCHEMA $$.status as status TAG
-      && redis-cli -h redis FT.CREATE idx-aptDate ON JSON SCHEMA $$.appointmentDateTime as appointmentDateTime NUMERIC SORTABLE
-      && redis-cli -h redis FT.CREATE idx-desc ON JSON SCHEMA $$.description as description TEXT
-      && redis-cli -h redis FT.CREATE idx-createdTime ON JSON SCHEMA $$.createdTime as createdTime NUMERIC SORTABLE "
+      sh -c "redis-cli -h redis FT.CREATE idx-createdTime-v2 PREFIX 1 "appointment:" SCHEMA createdTime NUMERIC SORTABLE "
       
 networks:
   web-network:
