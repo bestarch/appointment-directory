@@ -8,7 +8,7 @@ This application:
 * RediSearch 2.2 redis module for indexing and searching through the JSON objects and aggregating the result for analytic purposes
 * _Optional: Can use RedisStack which has RediSearch included in it by default_
 
-![appt_directory (2)](https://user-images.githubusercontent.com/26322220/178896690-c32eebbb-19a3-46bd-b723-00bab92725c9.png)
+![appt_directory_basic](https://user-images.githubusercontent.com/26322220/178977790-35ed753a-ea3d-429c-b893-4668a21b6ac1.png)
 
 
 ****Running the application****
